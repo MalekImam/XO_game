@@ -16,7 +16,7 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
-    int m_Array_XO[][],m_PlayerTurn,m_GameEnd,m_winer,m_NumberRound,m_PlayerXscore,m_PlayerOscore;
+    int m_Array_XO[][],m_PlayerTurn,m_GameEnd,m_winer,m_NumberRound,m_PlayerXscore,m_PlayerOscore,m_NumberOfClicks,m_Array_clickedBtn[];
     Random m_RandomBegin;
     Button m_Clicked;
     TextView m_ScoreText;
@@ -29,15 +29,15 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         m_Array_XO=new int [3][3];
+        m_Array_clickedBtn = new int[9];
         //Arrays.fill(m_Array_XO,-1);
 
         for(int i=0;i<3;i++)
-        {
             for(int j=0;j<3;j++)
-            {
                 m_Array_XO[i][j]=-1;
-            }
-        }
+
+        for(int i=0;i<9;i++)
+            m_Array_clickedBtn[i]=0;
 
         m_RandomBegin= new Random();
         m_PlayerTurn= m_RandomBegin.nextInt(2);
@@ -45,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
         m_NumberRound=0;
         m_PlayerXscore=0;
         m_PlayerOscore=0;
+        m_NumberOfClicks=0;
     }
 
     public void btn1_click(View view) {
@@ -87,39 +88,92 @@ public class MainActivity extends AppCompatActivity {
         {
             if(m_Row==0 && m_Column==0)//////////////////////////////////////////////////////////
             {
+                if(m_Array_clickedBtn[0]==0)
+                {
+                    m_Array_clickedBtn[0]=1;
+                    m_NumberOfClicks++;
+                }
                 m_Clicked = (Button)findViewById(R.id.mBtn1);
             }
             else if(m_Row==0 && m_Column==1)
             {
                 m_Clicked = (Button)findViewById(R.id.mBtn2);
+
+                if(m_Array_clickedBtn[1]==0)
+                {
+                    m_Array_clickedBtn[1]=1;
+                    m_NumberOfClicks++;
+                }
             }
             else if(m_Row==0 && m_Column==2)
             {
                 m_Clicked = (Button)findViewById(R.id.mBtn3);
+
+                if(m_Array_clickedBtn[2]==0)
+                {
+                    m_Array_clickedBtn[2]=1;
+                    m_NumberOfClicks++;
+                }
             }
             else if(m_Row==1 && m_Column==0)//////////////////////////////////////////////////////////
             {
                 m_Clicked = (Button)findViewById(R.id.mBtn4);
+
+                if(m_Array_clickedBtn[3]==0)
+                {
+                    m_Array_clickedBtn[3]=1;
+                    m_NumberOfClicks++;
+                }
             }
             else if(m_Row==1 && m_Column==1)
             {
                 m_Clicked = (Button)findViewById(R.id.mBtn5);
+
+                if(m_Array_clickedBtn[4]==0)
+                {
+                    m_Array_clickedBtn[4]=1;
+                    m_NumberOfClicks++;
+                }
             }
             else if(m_Row==1 && m_Column==2)
             {
                 m_Clicked = (Button)findViewById(R.id.mBtn6);
+
+                if(m_Array_clickedBtn[5]==0)
+                {
+                    m_Array_clickedBtn[5]=1;
+                    m_NumberOfClicks++;
+                }
             }
             else if(m_Row==2 && m_Column==0)//////////////////////////////////////////////////////////
             {
                 m_Clicked = (Button)findViewById(R.id.mBtn7);
+
+                if(m_Array_clickedBtn[6]==0)
+                {
+                    m_Array_clickedBtn[6]=1;
+                    m_NumberOfClicks++;
+                }
             }
             else if(m_Row==2 && m_Column==1)
             {
                 m_Clicked = (Button)findViewById(R.id.mBtn8);
+
+                if(m_Array_clickedBtn[7]==0)
+                {
+                    m_Array_clickedBtn[7]=1;
+                    m_NumberOfClicks++;
+                }
             }
             else if(m_Row==2 && m_Column==2)
             {
                 m_Clicked = (Button)findViewById(R.id.mBtn9);
+
+                if(m_Array_clickedBtn[8]==0)
+                {
+                    m_Array_clickedBtn[8]=1;
+                    m_NumberOfClicks++;
+                }
             }
 
             if(m_PlayerTurn==0)
@@ -152,7 +206,7 @@ public class MainActivity extends AppCompatActivity {
                 m_ScoreText.setText(m_PlayerXscore + "");
                 if(m_PlayerXscore<5)
                     RoundFinished();
-                Toast.makeText(getApplicationContext(),m_PWinner,Toast.LENGTH_SHORT).show();;
+                Toast.makeText(getApplicationContext(),m_PWinner,Toast.LENGTH_SHORT).show();
             }
             else//Player O
             {
@@ -163,7 +217,7 @@ public class MainActivity extends AppCompatActivity {
                 m_ScoreText.setText(m_PlayerOscore+"");
                 if(m_PlayerOscore<5)
                     RoundFinished();
-                Toast.makeText(getApplicationContext(),m_PWinner,Toast.LENGTH_SHORT).show();;
+                Toast.makeText(getApplicationContext(),m_PWinner,Toast.LENGTH_SHORT).show();
             }
 
             if(m_PlayerOscore==5 || m_PlayerXscore==5)
@@ -173,10 +227,16 @@ public class MainActivity extends AppCompatActivity {
                     m_PWinner="Player 2 Is The Winner";
                 else
                     m_PWinner="Player 1 Is The Winner";
-                Toast.makeText(getApplicationContext(),m_PWinner,Toast.LENGTH_LONG).show();;
+                Toast.makeText(getApplicationContext(),m_PWinner, Toast.LENGTH_LONG).show();
             }
             Log.v("MyTag", m_PWinner + "");
 
+        }
+        else if(m_NumberOfClicks==9)
+        {
+            m_PWinner="No Winner In This Round ( Tie )";
+            RoundFinished();
+            Toast.makeText(getApplicationContext(),m_PWinner,Toast.LENGTH_SHORT).show();
         }
 
     }
@@ -189,7 +249,7 @@ public class MainActivity extends AppCompatActivity {
 
     private boolean isEnd() {
 
-        int m_isend=1;
+        int m_isend;
         for(int i=0;i<3;i++)
         {
             m_isend=1;
@@ -253,6 +313,7 @@ public class MainActivity extends AppCompatActivity {
         m_PlayerXscore=0;
         m_NumberRound=0;
         m_GameEnd=0;
+        m_NumberOfClicks=0;
     }
 
     private void ClearScore() {
@@ -292,6 +353,10 @@ public class MainActivity extends AppCompatActivity {
         for(int i=0;i<3;i++)
             for(int j=0;j<3;j++)
                 m_Array_XO[i][j]=-1;
+
+        m_NumberOfClicks=0;
+        for(int i=0;i<9;i++)
+            m_Array_clickedBtn[i]=0;
     }
 
     private void RoundFinished() {
